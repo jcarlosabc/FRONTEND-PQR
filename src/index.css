@@ -1,0 +1,70 @@
+:root {
+  --bg-page: #f9f9f7;
+  --bg-surface: #ffffff;
+  --ink-primary: #0b0b0b;
+  --ink-secondary: #52514e;
+  --ink-muted: #898781;
+  --border: #e1e0d9;
+  --border-strong: rgba(11, 11, 11, 0.14);
+
+  --accent: #2a78d6;
+  --accent-dark: #184f95;
+  --accent-soft: #e8f0fb;
+
+  --estado-recibida: #2a78d6;
+  --estado-en_gestion: #c98500;
+  --estado-resuelta: #0ca30c;
+  --estado-cerrada: #767570;
+
+  --prioridad-baja: #767570;
+  --prioridad-media: #2a78d6;
+  --prioridad-alta: #d9652f;
+  --prioridad-urgente: #d03b3b;
+
+  --tipo-peticion: #2a78d6;
+  --tipo-queja: #178c60;
+  --tipo-reclamo: #b3790a;
+
+  --danger-bg: #fbe9e7;
+  --danger-ink: #a32a2a;
+
+  --radius: 6px;
+  --font-sans:
+    -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  font-family: var(--font-sans);
+  color: var(--ink-primary);
+  background: var(--bg-page);
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--accent-dark);
+}
+
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
