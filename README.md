@@ -139,7 +139,5 @@ arriba, el comando se corre desde `pqr-sistema`.
 ## Uso de IA
 
 Este proyecto usó Claude Code (Anthropic) como asistente de desarrollo
-durante la construcción del frontend. Alcance: generación de código a
-partir de decisiones de diseño de interfaz, arquitectura de componentes y
-validación tomadas y revisadas punto a punto durante el desarrollo. Ajusta
-este párrafo si quieres precisar mejor el alcance real antes de entregar.
+durante la construcción del frontend inicialmente, Luego el uso de agente propio COCODRILE para mejorar
+diseño de interfaz, arquitectura de componentes y validaciones
