@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000/api";
+export const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000/api";
 
 const ACCESS_KEY = "pqr_access_token";
 const REFRESH_KEY = "pqr_refresh_token";
@@ -83,7 +83,7 @@ async function refrescarToken(): Promise<boolean> {
 export async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { method = "GET", body, auth = true, params } = options;
 
-  const url = new URL(`${API_URL}${path}`);
+  const url = new URL(`${API_URL}${path}`, window.location.origin);
   if (params) {
     for (const [clave, valor] of Object.entries(params)) {
       if (valor) url.searchParams.set(clave, valor);

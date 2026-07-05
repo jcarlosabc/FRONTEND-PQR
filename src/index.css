@@ -1,36 +1,62 @@
 :root {
-  --bg-page: #f9f9f7;
+  --bg-page: #faf8f3;
   --bg-surface: #ffffff;
-  --ink-primary: #0b0b0b;
-  --ink-secondary: #52514e;
-  --ink-muted: #898781;
-  --border: #e1e0d9;
-  --border-strong: rgba(11, 11, 11, 0.14);
+  --bg-surface-alt: #f4f1e9;
+  --ink-primary: #171614;
+  --ink-secondary: #5b584f;
+  --ink-muted: #8c887d;
+  --border: #e6e2d5;
+  --border-strong: rgba(23, 22, 20, 0.16);
 
-  --accent: #2a78d6;
-  --accent-dark: #184f95;
-  --accent-soft: #e8f0fb;
+  --accent: #1f7a6c;
+  --accent-dark: #145c50;
+  --accent-darker: #0e2f2b;
+  --accent-soft: #e3f1ec;
 
-  --estado-recibida: #2a78d6;
-  --estado-en_gestion: #c98500;
-  --estado-resuelta: #0ca30c;
-  --estado-cerrada: #767570;
+  --topbar-bg: #0e332e;
+  --topbar-ink: #f4f9f7;
+  --topbar-ink-muted: rgba(244, 249, 247, 0.68);
+  --topbar-hover-bg: rgba(244, 249, 247, 0.1);
+  --topbar-active-bg: rgba(244, 249, 247, 0.16);
 
-  --prioridad-baja: #767570;
-  --prioridad-media: #2a78d6;
-  --prioridad-alta: #d9652f;
-  --prioridad-urgente: #d03b3b;
+  --estado-recibida: #2563eb;
+  --estado-en_gestion: #d97706;
+  --estado-resuelta: #15803d;
+  --estado-cerrada: #57534e;
 
-  --tipo-peticion: #2a78d6;
-  --tipo-queja: #178c60;
-  --tipo-reclamo: #b3790a;
+  --prioridad-baja: #57534e;
+  --prioridad-media: #2563eb;
+  --prioridad-alta: #d9540c;
+  --prioridad-urgente: #dc2626;
 
-  --danger-bg: #fbe9e7;
+  --tipo-peticion: #2563eb;
+  --tipo-queja: #15803d;
+  --tipo-reclamo: #d97706;
+
+  --sla-a_tiempo: #15803d;
+  --sla-por_vencer: #d97706;
+  --sla-vencida: #dc2626;
+  --sla-cumplido: #15803d;
+  --sla-incumplido: #dc2626;
+
+  --danger-bg: #fbeae7;
   --danger-ink: #a32a2a;
+  --success-bg: #e5f6ea;
+  --success-ink: #146a2f;
 
-  --radius: 6px;
+  --radius: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(23, 22, 20, 0.06), 0 1px 1px rgba(23, 22, 20, 0.04);
+  --shadow-md: 0 8px 20px rgba(23, 22, 20, 0.08), 0 2px 6px rgba(23, 22, 20, 0.05);
+  --shadow-lg: 0 16px 36px rgba(14, 51, 46, 0.14), 0 4px 10px rgba(14, 51, 46, 0.08);
+
+  --transition-fast: 150ms ease-out;
+  --transition: 200ms ease-out;
+
   --font-sans:
-    -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    "Manrope", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   font-family: var(--font-sans);
   color: var(--ink-primary);
@@ -67,4 +93,15 @@ table {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

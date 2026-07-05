@@ -43,10 +43,11 @@ La aplicación queda en `http://localhost:5173`.
 
 ### Opción B — Con Docker
 
-El frontend solo, aislado, **no** tiene con quién hablar la API (nginx
-necesita un contenedor llamado `backend` en su misma red para poder
-proxear `/api`), así que la forma real de correrlo en Docker es junto al
-backend, con el compose de `pqr-sistema`:
+Este repositorio (`frontend-pqr`) **no tiene** `docker-compose.yml` a
+propósito — solo un `Dockerfile`. El frontend solo, aislado, no tiene con
+quién hablar la API (nginx necesita un contenedor llamado `backend` en su
+misma red para poder proxear `/api`), así que el `docker compose up` real
+se corre **desde la carpeta `pqr-sistema`**, no desde aquí:
 
 ```bash
 git clone https://github.com/jcarlosabc/BACKEND-PQR.git backend-pqr
@@ -54,10 +55,15 @@ git clone https://github.com/jcarlosabc/FRONTEND-PQR.git frontend-pqr
 git clone <url-de-pqr-sistema> pqr-sistema
 
 cd backend-pqr && cp .env.example .env && cd ..
-cd pqr-sistema
+
+cd pqr-sistema        # <- el docker-compose.yml está AQUÍ, en ningún otro lado
 docker compose up -d --build
 docker compose exec backend python manage.py seed_demo
 ```
+
+Si corres `docker compose up` dentro de `frontend-pqr` o en la carpeta
+que las contiene a las tres, vas a ver `no configuration file provided:
+not found` — es correcto, ese archivo solo existe dentro de `pqr-sistema`.
 
 La aplicación queda en `http://localhost:8080` (nginx sirviendo el build
 de React + proxy a `/api`, `/admin` y `/static` hacia el backend).
@@ -115,6 +121,20 @@ frontend-pqr/
     pages/         las 5 pantallas de la aplicación
     styles/        sistema de diseño (tokens + componentes)
 ```
+
+## Solución de problemas comunes
+
+**"No se pudo conectar con el servidor" al iniciar sesión**: primero
+confirma que el backend responde por su cuenta —
+`curl http://localhost:8000/api/auth/login` (o `:8080/api/...` si usas
+Docker) debe dar una respuesta JSON, no un error de conexión. Si el
+backend está bien, haz `Ctrl+Shift+R` en el navegador (recarga sin
+caché) — es común quedarse con una versión vieja del bundle después de
+un `docker compose up --build`.
+
+**`no configuration file provided: not found`**: este repositorio no
+tiene `docker-compose.yml` a propósito — ver la sección de Docker más
+arriba, el comando se corre desde `pqr-sistema`.
 
 ## Uso de IA
 

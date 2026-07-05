@@ -1,7 +1,15 @@
-import { useEffect, useState } from "react";
+import { AlertCircle, AlertTriangle, CheckCircle2, CircleDot, Clock, Layers, Loader2, Lock, Star, TimerReset } from "lucide-react";
+import { useEffect, useState, type ComponentType } from "react";
 import { obtenerEstadisticas } from "../api/pqr";
-import type { EstadisticasResponse } from "../types";
+import type { EstadoPQR, EstadisticasResponse } from "../types";
 import { ETIQUETAS_ESTADO, ETIQUETAS_PRIORIDAD, ETIQUETAS_TIPO } from "../components/Badges";
+
+const ICONOS_ESTADO_TILE: Record<EstadoPQR, ComponentType<{ size?: number }>> = {
+  recibida: CircleDot,
+  en_gestion: Clock,
+  resuelta: CheckCircle2,
+  cerrada: Lock,
+};
 
 export function EstadisticasPage() {
   const [datos, setDatos] = useState<EstadisticasResponse | null>(null);
@@ -13,8 +21,20 @@ export function EstadisticasPage() {
       .catch(() => setError("No se pudieron cargar las estadísticas."));
   }, []);
 
-  if (error) return <div className="alert alert-error">{error}</div>;
-  if (!datos) return <p className="cargando">Cargando…</p>;
+  if (error)
+    return (
+      <div className="alert alert-error">
+        <AlertCircle />
+        {error}
+      </div>
+    );
+  if (!datos)
+    return (
+      <p className="cargando">
+        <Loader2 />
+        Cargando…
+      </p>
+    );
 
   return (
     <>
@@ -27,15 +47,47 @@ export function EstadisticasPage() {
 
       <div className="stat-tiles">
         <div className="stat-tile">
+          <span className="stat-tile-icono">
+            <Layers />
+          </span>
           <div className="valor">{datos.total}</div>
           <div className="etiqueta">Total de PQR</div>
         </div>
-        {datos.por_estado.map((item) => (
-          <div className="stat-tile" key={item.estado}>
-            <div className="valor" style={{ color: `var(--estado-${item.estado})` }}>{item.total}</div>
-            <div className="etiqueta">{ETIQUETAS_ESTADO[item.estado]}</div>
+        {datos.por_estado.map((item) => {
+          const Icono = ICONOS_ESTADO_TILE[item.estado];
+          return (
+            <div className="stat-tile" key={item.estado} style={{ "--tile-color": `var(--estado-${item.estado})` } as React.CSSProperties}>
+              <span className="stat-tile-icono">
+                <Icono />
+              </span>
+              <div className="valor" style={{ color: `var(--estado-${item.estado})` }}>{item.total}</div>
+              <div className="etiqueta">{ETIQUETAS_ESTADO[item.estado]}</div>
+            </div>
+          );
+        })}
+        <div className="stat-tile" style={{ "--tile-color": "var(--sla-vencida)" } as React.CSSProperties}>
+          <span className="stat-tile-icono">
+            <AlertTriangle />
+          </span>
+          <div className="valor" style={{ color: "var(--sla-vencida)" }}>{datos.vencidas}</div>
+          <div className="etiqueta">Vencidas</div>
+        </div>
+        <div className="stat-tile" style={{ "--tile-color": "var(--sla-por_vencer)" } as React.CSSProperties}>
+          <span className="stat-tile-icono">
+            <TimerReset />
+          </span>
+          <div className="valor" style={{ color: "var(--sla-por_vencer)" }}>{datos.por_vencer}</div>
+          <div className="etiqueta">Por vencer</div>
+        </div>
+        <div className="stat-tile" style={{ "--tile-color": "var(--prioridad-alta)" } as React.CSSProperties}>
+          <span className="stat-tile-icono">
+            <Star />
+          </span>
+          <div className="valor" style={{ color: "var(--prioridad-alta)" }}>
+            {datos.calificacion_promedio ? datos.calificacion_promedio.toFixed(1) : "—"}
           </div>
-        ))}
+          <div className="etiqueta">Calificación promedio</div>
+        </div>
       </div>
 
       <div className="stat-grid">
@@ -65,9 +117,20 @@ interface BarraDato {
 
 function BarraLista({ datos }: { datos: BarraDato[] }) {
   const maximo = Math.max(1, ...datos.map((d) => d.total));
+  const [animado, setAnimado] = useState(false);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setAnimado(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   if (datos.length === 0) {
-    return <div className="estado-vacio">Sin datos todavía.</div>;
+    return (
+      <div className="estado-vacio">
+        <Layers />
+        Sin datos todavía.
+      </div>
+    );
   }
 
   return (
@@ -79,7 +142,10 @@ function BarraLista({ datos }: { datos: BarraDato[] }) {
             {item.etiqueta}
           </span>
           <div className="bar-track">
-            <div className="bar-fill" style={{ width: `${(item.total / maximo) * 100}%`, background: item.color }} />
+            <div
+              className="bar-fill"
+              style={{ width: animado ? `${(item.total / maximo) * 100}%` : "0%", background: item.color }}
+            />
           </div>
           <span className="total">{item.total}</span>
         </div>

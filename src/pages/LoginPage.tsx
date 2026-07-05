@@ -1,3 +1,4 @@
+import { AlertCircle, Loader2, MessageSquareText } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -28,10 +29,18 @@ export function LoginPage() {
   return (
     <div className="login-shell">
       <div className="card login-card">
+        <span className="login-logo">
+          <MessageSquareText />
+        </span>
         <h1>Ingreso de agentes</h1>
         <p className="subtitulo">Gestión interna de PQR — Fundación Sersocial IPS</p>
 
-        {error && <div className="alert alert-error">{error}</div>}
+        {error && (
+          <div className="alert alert-error">
+            <AlertCircle />
+            {error}
+          </div>
+        )}
 
         <form onSubmit={manejarEnvio} className="form-grid una-columna">
           <div className="field">
@@ -57,6 +66,7 @@ export function LoginPage() {
             />
           </div>
           <button type="submit" className="btn btn-primary" disabled={enviando}>
+            {enviando && <Loader2 size={16} className="icono-spin" />}
             {enviando ? "Ingresando…" : "Ingresar"}
           </button>
         </form>

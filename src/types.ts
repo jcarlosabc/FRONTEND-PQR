@@ -2,6 +2,8 @@ export type TipoPQR = "peticion" | "queja" | "reclamo";
 export type PrioridadPQR = "baja" | "media" | "alta" | "urgente";
 export type EstadoPQR = "recibida" | "en_gestion" | "resuelta" | "cerrada";
 export type CanalPQR = "web" | "email" | "presencial";
+export type SlaEstado = "a_tiempo" | "por_vencer" | "vencida" | "cumplido" | "incumplido";
+export type RolUsuario = "agente" | "supervisor" | "admin";
 
 export interface Solicitante {
   id?: number;
@@ -30,6 +32,9 @@ export interface PQRListItem {
   estado: EstadoPQR;
   canal: CanalPQR;
   solicitante_nombre: string;
+  agente_asignado_nombre: string | null;
+  fecha_limite: string | null;
+  sla_estado: SlaEstado;
   created_at: string;
   updated_at: string;
 }
@@ -45,8 +50,14 @@ export interface PQRDetail {
   estado: EstadoPQR;
   canal: CanalPQR;
   solicitante: Solicitante;
+  agente_asignado_id: number | null;
   agente_asignado_nombre: string | null;
   seguimientos: SeguimientoItem[];
+  fecha_limite: string | null;
+  sla_estado: SlaEstado;
+  calificacion: number | null;
+  comentario_calificacion: string;
+  puede_calificarse: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -57,6 +68,9 @@ export interface PQRPublico {
   categoria: string;
   prioridad: PrioridadPQR;
   estado: EstadoPQR;
+  fecha_limite: string | null;
+  sla_estado: SlaEstado;
+  puede_calificarse: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -66,6 +80,9 @@ export interface EstadisticasResponse {
   por_estado: { estado: EstadoPQR; total: number }[];
   por_tipo: { tipo: TipoPQR; total: number }[];
   por_prioridad: { prioridad: PrioridadPQR; total: number }[];
+  vencidas: number;
+  por_vencer: number;
+  calificacion_promedio: number | null;
 }
 
 export interface Paginado<T> {
@@ -79,5 +96,6 @@ export interface Usuario {
   id: number;
   nombre: string;
   email: string;
-  rol: "agente" | "supervisor" | "admin";
+  rol: RolUsuario;
+  is_active: boolean;
 }

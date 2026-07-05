@@ -7,6 +7,7 @@ import { ListadoPage } from "./pages/ListadoPage";
 import { NuevaPQRPage } from "./pages/NuevaPQRPage";
 import { DetallePage } from "./pages/DetallePage";
 import { EstadisticasPage } from "./pages/EstadisticasPage";
+import { UsuariosPage } from "./pages/UsuariosPage";
 
 function App() {
   return (
@@ -30,6 +31,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EstadisticasPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/usuarios"
+              element={
+                <ProtectedRoute rolesPermitidos={["admin"]}>
+                  <UsuariosPage />
                 </ProtectedRoute>
               }
             />

@@ -1,3 +1,4 @@
+import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { ApiError } from "../api/client";
@@ -114,11 +115,14 @@ export function NuevaPQRPage() {
   if (radicadoCreado) {
     return (
       <div className="card" style={{ maxWidth: 480 }}>
+        <span className="login-logo" style={{ background: "var(--success-ink)" }}>
+          <CheckCircle2 />
+        </span>
         <h2 className="card-title">Solicitud registrada</h2>
         <p style={{ fontSize: 14, color: "var(--ink-secondary)" }}>
           Guarda este número de radicado para hacer seguimiento a tu solicitud:
         </p>
-        <p style={{ fontSize: 22, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
+        <p style={{ fontSize: 22, fontWeight: 800, fontVariantNumeric: "tabular-nums" }}>
           {radicadoCreado}
         </p>
         <div className="btn-fila">
@@ -148,7 +152,12 @@ export function NuevaPQRPage() {
         </div>
       </div>
 
-      {errorGeneral && <div className="alert alert-error">{errorGeneral}</div>}
+      {errorGeneral && (
+        <div className="alert alert-error">
+          <AlertCircle />
+          {errorGeneral}
+        </div>
+      )}
 
       <form onSubmit={manejarEnvio}>
         <div className="card">
@@ -236,6 +245,7 @@ export function NuevaPQRPage() {
 
         <div className="btn-fila">
           <button type="submit" className="btn btn-primary" disabled={enviando}>
+            {enviando ? <Loader2 size={16} className="icono-spin" /> : <Send size={16} />}
             {enviando ? "Enviando…" : "Registrar solicitud"}
           </button>
         </div>
